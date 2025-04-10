@@ -13,13 +13,15 @@ parser.add_argument(
     '-l', '--link',
     type=str,
     default=DEFAULT_LINK,
-    help=f'Ссылка (по умолчанию: "{DEFAULT_LINK}")')
+    help=f'Ссылка (по умолчанию: "{DEFAULT_LINK}")'
+)
 
 parser.add_argument(
     '-m', '--max',
     type=int,
     default=float('inf'),
-    help='Сколько ссылок проверить (по умолчанию: Все')
+    help='Сколько ссылок проверить (по умолчанию: Все)'
+)
 
 args = parser.parse_args()
 
@@ -33,7 +35,9 @@ driver = webdriver.Chrome()
 
 
 def extract_domain(url: str) -> str:
-    """Возвращает домен"""
+    """
+    Извлекает домен
+    :return: Домен"""
 
     return urlparse(url).netloc
 
@@ -43,7 +47,7 @@ start_domain = extract_domain(args.link)
 
 def get_links() -> set:
     """Поиск ссылок на странице
-    :return Уникальные ссылки
+    :return: Уникальные ссылки
     """
 
     links = set()
@@ -63,7 +67,7 @@ def get_links() -> set:
 
 def normalize_url(href: str) -> str:
     """Убирает query-строку и фрагмент из URL.
-    :return Нормализованный URL
+    :return: Нормализованный URL
     """
 
     parsed = urlsplit(href)
@@ -74,7 +78,7 @@ def get_page_load_time() -> float:
     """Вычисляет время загрузки страницы с помощью performance.timing
     Если возвращаемое значение '-1' -страница не загрузилась
 
-    :return Время загрузки страницы
+    :return: Время загрузки страницы
     """
 
     try:
@@ -87,12 +91,12 @@ def get_page_load_time() -> float:
         return load_time
 
     except TimeoutException:
-        return -1.000
+        return -1.0
 
 
 def pages_load_time_top() -> list[tuple[str, float]]:
     """Составляет список страниц сайта и времени их загрузки, сортируя от самых медленных к самым быстрым.
-    :return Список страниц и времени за которое они загрузились
+    :return: Список страниц и времени за которое они загрузились
     """
 
     link_time = []
