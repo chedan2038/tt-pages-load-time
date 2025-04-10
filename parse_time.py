@@ -6,7 +6,7 @@ from selenium.common import TimeoutException, WebDriverException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-DEFAULT_LINK = 'https://onlinetimer.ru/'
+from configuration import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -19,15 +19,11 @@ parser.add_argument(
 parser.add_argument(
     '-m', '--max',
     type=int,
-    default=float('inf'),
+    default=DEFAULT_LINK_COUNT,
     help='Сколько ссылок проверить (по умолчанию: Все)'
 )
 
 args = parser.parse_args()
-
-# CFG
-TIMEOUT = 10
-BASED_ON_URL_LINKS = True
 
 visited = set()
 to_visit = {args.link}
@@ -37,7 +33,8 @@ driver = webdriver.Chrome()
 def extract_domain(url: str) -> str:
     """
     Извлекает домен
-    :return: Домен"""
+    :return: Домен
+    """
 
     return urlparse(url).netloc
 
